@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { FiSend, FiMessageCircle, FiUser, FiTrendingUp, FiBarChart2 } from 'react-icons/fi';
+import { FiSend, FiMessageCircle, FiTrendingUp } from 'react-icons/fi';
 import ChatMessage from './components/ChatMessage';
-import StockChart from './components/StockChart';
 import SampleQuestions from './components/SampleQuestions';
 import ComprehensiveAnalytics from './components/ComprehensiveAnalytics';
 import { sendMessage } from './api/chatApi';

@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "bajaj-finserv-chatbot",
+  "buildCommand": "cd client && npm ci && npm run build",
+  "outputDirectory": "client/build",
+  "installCommand": "cd client && npm install",
+  "devCommand": "cd client && npm start",
+  "framework": null,
+  "env": {
+    "CI": "false",
+    "GENERATE_SOURCEMAP": "false"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

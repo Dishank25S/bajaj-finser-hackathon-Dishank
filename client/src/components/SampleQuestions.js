@@ -29,7 +29,7 @@ const Container = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #f59e0b, #f97316, #ef4444);
+    background: linear-gradient(90deg, #007BFF, #0056B3, #003D7A);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     
@@ -41,7 +41,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-  color: #4f46e5;
+  color: #007BFF;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -100,16 +100,16 @@ const QuestionButton = styled.button`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
     transition: left 0.5s ease;
     border-radius: 12px;
   }
 
   &:hover {
-    background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
-    border-color: #6366f1;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-color: #007BFF;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
     
     &::before {
       left: 100%;
@@ -123,7 +123,7 @@ const QuestionButton = styled.button`
 
 const QuestionCategory = styled.div`
   font-size: 0.75rem;
-  color: #6366f1;
+  color: #007BFF;
   font-weight: 600;
   margin-bottom: 0.25rem;
   text-transform: uppercase;

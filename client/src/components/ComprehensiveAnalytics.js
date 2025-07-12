@@ -30,7 +30,7 @@ const Container = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #10b981, #059669, #047857);
+    background: linear-gradient(90deg, #007BFF, #0056B3, #003D7A);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     
@@ -42,7 +42,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-  color: #4f46e5;
+  color: #007BFF;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -103,17 +103,17 @@ const Tab = styled.button`
   font-weight: 600;
   
   ${props => props.active ? `
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
     border-radius: 8px;
   ` : `
     background: transparent;
     color: #64748b;
     
     &:hover {
-      background: rgba(99, 102, 241, 0.1);
-      color: #6366f1;
+      background: rgba(0, 123, 255, 0.1);
+      color: #007BFF;
       border-radius: 8px;
     }
   `}

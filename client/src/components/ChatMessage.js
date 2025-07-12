@@ -60,9 +60,9 @@ const Avatar = styled.div`
   }
   
   ${props => props.isUser ? `
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
   ` : `
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #003D7A 0%, #002952 100%);
   `}
 `;
 
@@ -89,7 +89,7 @@ const MessageBubble = styled.div`
   }
   
   ${props => props.isUser ? `
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
     color: white;
     border-bottom-right-radius: 8px;
     
@@ -101,8 +101,8 @@ const MessageBubble = styled.div`
       width: 0;
       height: 0;
       border: 8px solid transparent;
-      border-top-color: #059669;
-      border-left-color: #059669;
+      border-top-color: #0056B3;
+      border-left-color: #0056B3;
     }
   ` : `
     background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);

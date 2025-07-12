@@ -7,13 +7,39 @@
 
 ## Fixing 404 Errors on Netlify
 
+## FIXED: Build Command Error Solution
+
+**Error:** `sh: line 1: react-scripts: command not found`  
+**Solution:** Updated `netlify.toml` with proper build configuration.
+
+### Updated Netlify Settings
+
+Your `netlify.toml` now contains:
+```toml
+[build]
+  base = "client"
+  publish = "build"
+  command = "npm install && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--production=false"
+```
+
+This ensures:
+- Netlify runs from the `client` directory
+- Dependencies are installed before building
+- Correct Node version is used
+- Dev dependencies are included in the build
+
 ### Step 1: Verify Your Netlify Settings
 
 1. **Log into your Netlify dashboard**
 2. **Go to your site settings**
 3. **Check Build & Deploy settings:**
-   - **Build command:** `cd client && npm run build`
-   - **Publish directory:** `client/build`
+   - **Base directory:** `client`
+   - **Build command:** `npm install && npm run build`
+   - **Publish directory:** `build`
    - **Node version:** 18
 
 ### Step 2: Manual Deploy (Recommended)
@@ -41,8 +67,9 @@ If the manual deploy works, then the issue is with your build settings. Update t
 2. **Choose your GitHub repository**
 3. **Set branch to deploy:** `main` or `master`
 4. **Build settings:**
-   - **Build command:** `cd client && npm run build`
-   - **Publish directory:** `client/build`
+   - **Base directory:** `client`
+   - **Build command:** `npm install && npm run build`
+   - **Publish directory:** `build`
 
 ### Step 5: Verify Files Are Present
 
@@ -77,11 +104,11 @@ Your `client/public/_redirects` should contain:
 - **Solution:** Make sure the `_redirects` file is in `client/public/` folder
 
 ### Issue 3: Build Command Issues
-- **Solution:** Use `cd client && npm run build` instead of just `npm run build`
-- **Solution:** Ensure the command runs from the root directory
+- **Solution:** Use `npm install && npm run build` instead of just `npm run build`
+- **Solution:** Set base directory to `client` in Netlify settings
 
 ### Issue 4: Publish Directory Wrong
-- **Solution:** Set publish directory to `client/build` not just `build`
+- **Solution:** Set base directory to `client` and publish directory to `build`
 
 ## Testing Your Deployment
 
@@ -121,8 +148,9 @@ If issues persist:
 - [ ] `client/build` folder contains `index.html` and static assets
 - [ ] `netlify.toml` is in project root
 - [ ] `_redirects` file is in `client/public/`
-- [ ] Netlify build command is `cd client && npm run build`
-- [ ] Netlify publish directory is `client/build`
+- [ ] Netlify base directory is `client`
+- [ ] Netlify build command is `npm install && npm run build`
+- [ ] Netlify publish directory is `build`
 - [ ] Node version is set to 18
 
 ## Next Steps

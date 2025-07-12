@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajaj Finserv Chatbot - Demo Showcase</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .demo-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            color: #374151;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .demo-card h3 {
+            color: #4f46e5;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .demo-queries {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .query-item {
+            background: white;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
+            font-family: monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .query-item:hover {
+            background: #e0e7ff;
+            transform: translateX(5px);
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .feature-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 12px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🚀 Bajaj Finserv AI Chatbot</h1>
+        <p>Comprehensive Financial Intelligence Platform</p>
+        <p><strong>Mini Project Submission - Advanced AI-Powered Analysis</strong></p>
+    </header>
+
+    <div class="demo-container">
+        <div class="demo-card">
+            <h3>📊 Stock Price Analysis</h3>
+            <p>Analyze 942+ data points from Jan 2022 to July 2025 with intelligent query processing.</p>
+            
+            <div class="demo-queries">
+                <strong>Try these queries:</strong>
+                <div class="query-item" onclick="copyQuery(this)">What was the highest stock price in Jan-22?</div>
+                <div class="query-item" onclick="copyQuery(this)">What was the average stock price across Dec-24?</div>
+                <div class="query-item" onclick="copyQuery(this)">Tell me the lowest stock price in Mar-25</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">942+</div>
+                    <div class="stat-label">Data Points</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">3.5 Years</div>
+                    <div class="stat-label">Time Range</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h3>🔄 Period Comparisons</h3>
+            <p>Advanced comparative analysis with percentage changes and detailed metrics.</p>
+            
+            <div class="demo-queries">
+                <strong>Comparison Examples:</strong>
+                <div class="query-item" onclick="copyQuery(this)">Compare Bajaj Finserv from Mar-22 to Jun-22</div>
+                <div class="query-item" onclick="copyQuery(this)">Compare performance from Jan-24 to Dec-24</div>
+                <div class="query-item" onclick="copyQuery(this)">How did Q1 compare to Q4 FY25?</div>
+            </div>
+            
+            <ul class="feature-list">
+                <li>Before/After price analysis</li>
+                <li>Percentage change calculations</li>
+                <li>Volume trend analysis</li>
+                <li>Performance metrics</li>
+            </ul>
+        </div>
+
+        <div class="demo-card">
+            <h3>🧠 Business Intelligence</h3>
+            <p>Deep insights into business segments, partnerships, and strategic initiatives.</p>
+            
+            <div class="demo-queries">
+                <strong>Business Queries:</strong>
+                <div class="query-item" onclick="copyQuery(this)">Why is BAGIC facing headwinds in Motor insurance?</div>
+                <div class="query-item" onclick="copyQuery(this)">What's the rationale of Hero partnership?</div>
+                <div class="query-item" onclick="copyQuery(this)">Tell me about Bajaj Markets organic traffic</div>
+            </div>
+            
+            <ul class="feature-list">
+                <li>BAGIC motor insurance analysis</li>
+                <li>Hero partnership details</li>
+                <li>Digital growth metrics</li>
+                <li>Market positioning insights</li>
+            </ul>
+        </div>
+
+        <div class="demo-card">
+            <h3>💼 CFO-Level Commentary</h3>
+            <p>Professional investor call commentary generation with financial highlights.</p>
+            
+            <div class="demo-queries">
+                <strong>Commentary Requests:</strong>
+                <div class="query-item" onclick="copyQuery(this)">Act as CFO of BAGIC and help draft investor commentary</div>
+                <div class="query-item" onclick="copyQuery(this)">Provide quarterly performance summary</div>
+                <div class="query-item" onclick="copyQuery(this)">Generate forward guidance commentary</div>
+            </div>
+            
+            <ul class="feature-list">
+                <li>Executive summaries</li>
+                <li>Financial performance highlights</li>
+                <li>Strategic initiative updates</li>
+                <li>Forward guidance</li>
+            </ul>
+        </div>
+
+        <div class="demo-card">
+            <h3>📈 Allianz Stake Sale</h3>
+            <p>Comprehensive timeline and analysis of the Allianz stake sale transaction.</p>
+            
+            <div class="demo-queries">
+                <strong>Stake Sale Queries:</strong>
+                <div class="query-item" onclick="copyQuery(this)">Give me table with dates on Allianz stake sale</div>
+                <div class="query-item" onclick="copyQuery(this)">What's the current status of Allianz deal?</div>
+                <div class="query-item" onclick="copyQuery(this)">How will proceeds be used?</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">₹48.5K Cr</div>
+                    <div class="stat-label">Final Valuation</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">26%</div>
+                    <div class="stat-label">Stake Size</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h3>📱 Modern UI Features</h3>
+            <p>Professional, responsive design with advanced interactions and animations.</p>
+            
+            <ul class="feature-list">
+                <li>Glassmorphism design elements</li>
+                <li>Interactive chat interface</li>
+                <li>Real-time data visualizations</li>
+                <li>Responsive mobile layout</li>
+                <li>Smooth animations</li>
+                <li>Professional color schemes</li>
+                <li>Sample question suggestions</li>
+                <li>Comprehensive analytics dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="cta-buttons">
+        <a href="http://localhost:3000" class="btn btn-primary" target="_blank">
+            🚀 Launch Main Application
+        </a>
+        <a href="http://localhost:5000/api/health" class="btn btn-secondary" target="_blank">
+            🔧 Check API Health
+        </a>
+        <button class="btn btn-secondary" onclick="runTests()">
+            ✅ Run All Tests
+        </button>
+    </div>
+
+    <script>
+        function copyQuery(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text);
+            
+            const original = element.textContent;
+            element.textContent = '✅ Copied! Paste in chatbot';
+            element.style.background = '#10b981';
+            element.style.color = 'white';
+            
+            setTimeout(() => {
+                element.textContent = original;
+                element.style.background = 'white';
+                element.style.color = '#374151';
+            }, 2000);
+        }
+        
+        async function runTests() {
+            const API_BASE = 'http://localhost:5000/api';
+            const tests = [
+                { name: 'Health Check', url: `${API_BASE}/health` },
+                { name: 'Stock Query', url: `${API_BASE}/chat`, method: 'POST', body: { message: 'What was the highest stock price in Jan-22?' } },
+                { name: 'CFO Commentary', url: `${API_BASE}/chat`, method: 'POST', body: { message: 'Act as CFO and provide commentary' } }
+            ];
+            
+            let results = [];
+            for (const test of tests) {
+                try {
+                    const options = {
+                        method: test.method || 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    if (test.body) options.body = JSON.stringify(test.body);
+                    
+                    const response = await fetch(test.url, options);
+                    results.push(`✅ ${test.name}: SUCCESS`);
+                } catch (error) {
+                    results.push(`❌ ${test.name}: FAILED`);
+                }
+            }
+            
+            alert('Test Results:\n\n' + results.join('\n'));
+        }
+        
+        // Auto-detect if servers are running
+        window.addEventListener('load', async () => {
+            try {
+                await fetch('http://localhost:5000/api/health');
+                document.querySelector('.cta-buttons').insertAdjacentHTML('afterbegin', 
+                    '<div style="background: #10b981; color: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-align: center;">🟢 Backend Server is Running!</div>'
+                );
+            } catch {
+                document.querySelector('.cta-buttons').insertAdjacentHTML('afterbegin', 
+                    '<div style="background: #ef4444; color: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-align: center;">🔴 Backend Server is Not Running - Run start-app.bat</div>'
+                );
+            }
+        });
+    </script>
+</body>
+</html>

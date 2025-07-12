@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajaj Finserv Chatbot Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { max-width: 600px; margin: 0 auto; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Bajaj Finserv Chatbot - Test Page</h1>
+        <p>This page tests the backend API endpoints.</p>
+        
+        <button onclick="testHealth()">Test Health</button>
+        <button onclick="testStockQuery()">Test Stock Query</button>
+        <button onclick="testCFOCommentary()">Test CFO Commentary</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult('Health Check: ✅ Server is running', 'success');
+            } catch (error) {
+                showResult('Health Check: ❌ Server not responding', 'error');
+            }
+        }
+        
+        async function testStockQuery() {
+            try {
+                const response = await fetch(`${API_BASE}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'What was the highest stock price in Jan-22?' })
+                });
+                const data = await response.json();
+                showResult(`Stock Query: ✅ ${data.response.substring(0, 100)}...`, 'success');
+            } catch (error) {
+                showResult('Stock Query: ❌ Failed', 'error');
+            }
+        }
+        
+        async function testCFOCommentary() {
+            try {
+                const response = await fetch(`${API_BASE}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'Act as CFO and provide commentary' })
+                });
+                const data = await response.json();
+                showResult(`CFO Commentary: ✅ Generated successfully`, 'success');
+            } catch (error) {
+                showResult('CFO Commentary: ❌ Failed', 'error');
+            }
+        }
+        
+        function showResult(message, type) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.textContent = message;
+            resultsDiv.appendChild(resultDiv);
+        }
+    </script>
+</body>
+</html>

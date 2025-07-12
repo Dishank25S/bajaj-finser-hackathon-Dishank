@@ -11,6 +11,16 @@ const Container = styled.div`
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
   
   &::before {
     content: '';
@@ -20,6 +30,13 @@ const Container = styled.div`
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, #f59e0b, #f97316, #ef4444);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    @media (max-width: 768px) {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
   }
 `;
 
@@ -31,6 +48,17 @@ const Title = styled.h3`
   gap: 0.75rem;
   font-size: 1.3rem;
   font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    gap: 0.5rem;
+  }
 `;
 
 const QuestionGrid = styled.div`
@@ -48,10 +76,22 @@ const QuestionButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 0.85rem;
+    font-size: 0.85rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
   color: #475569;
   line-height: 1.4;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 
   &::before {
     content: '';
@@ -62,6 +102,7 @@ const QuestionButton = styled.button`
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
     transition: left 0.5s ease;
+    border-radius: 12px;
   }
 
   &:hover {

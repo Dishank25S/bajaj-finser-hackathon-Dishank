@@ -12,6 +12,16 @@ const Container = styled.div`
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
   
   &::before {
     content: '';
@@ -21,6 +31,13 @@ const Container = styled.div`
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, #10b981, #059669, #047857);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    @media (max-width: 768px) {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
   }
 `;
 
@@ -32,6 +49,17 @@ const Title = styled.h3`
   gap: 0.75rem;
   font-size: 1.3rem;
   font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    gap: 0.5rem;
+  }
 `;
 
 const TabContainer = styled.div`
@@ -41,6 +69,16 @@ const TabContainer = styled.div`
   background: #f1f5f9;
   padding: 0.25rem;
   border-radius: 12px;
+  
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 `;
 
 const Tab = styled.button`
@@ -48,6 +86,17 @@ const Tab = styled.button`
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
@@ -57,6 +106,7 @@ const Tab = styled.button`
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
   ` : `
     background: transparent;
     color: #64748b;
@@ -64,6 +114,7 @@ const Tab = styled.button`
     &:hover {
       background: rgba(99, 102, 241, 0.1);
       color: #6366f1;
+      border-radius: 8px;
     }
   `}
 `;

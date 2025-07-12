@@ -13,6 +13,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   position: relative;
+  font-family: 'Inter', sans-serif;
   
   &::before {
     content: '';
@@ -38,6 +39,18 @@ const Header = styled.header`
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 10;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem 1rem;
+  }
 `;
 
 const Logo = styled.div`
@@ -48,6 +61,16 @@ const Logo = styled.div`
   font-weight: 700;
   color: white;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+    gap: 0.5rem;
+  }
   
   .logo-icon {
     background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
@@ -63,6 +86,17 @@ const HeaderInfo = styled.div`
   gap: 1.5rem;
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    gap: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
   
   .status-indicator {
     display: flex;
@@ -72,6 +106,11 @@ const HeaderInfo = styled.div`
     padding: 0.5rem 1rem;
     border-radius: 20px;
     border: 1px solid rgba(16, 185, 129, 0.3);
+    
+    @media (max-width: 480px) {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+    }
     
     .dot {
       width: 8px;
@@ -98,10 +137,21 @@ const MainContent = styled.main`
   gap: 2rem;
   position: relative;
   z-index: 5;
+  font-family: 'Inter', sans-serif;
   
   @media (max-width: 1024px) {
     flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
     padding: 1rem;
+    gap: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
   }
 `;
 
@@ -116,6 +166,11 @@ const ChatContainer = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
   
   &:hover {
     transform: translateY(-2px);
@@ -132,6 +187,17 @@ const ChatHeader = styled.div`
   gap: 1rem;
   position: relative;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
   
   &::before {
     content: '';
@@ -160,12 +226,22 @@ const ChatHeader = styled.div`
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
   }
   
   .chat-info p {
     margin: 0.5rem 0 0 0;
     opacity: 0.9;
     font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 0.85rem;
+    }
   }
 `;
 
@@ -176,6 +252,17 @@ const ChatMessages = styled.div`
   max-height: 500px;
   min-height: 400px;
   background: linear-gradient(to bottom, #fafafa 0%, #f8fafc 100%);
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+    min-height: 300px;
+    max-height: 400px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
   
   &::-webkit-scrollbar {
     width: 8px;
@@ -200,6 +287,15 @@ const ChatInputContainer = styled.div`
   padding: 1.5rem;
   border-top: 1px solid #e2e8f0;
   background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
 `;
 
 const ChatInputWrapper = styled.div`
@@ -212,10 +308,12 @@ const ChatInputWrapper = styled.div`
   padding: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   
   &:focus-within {
     border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
     transform: translateY(-1px);
   }
 `;
@@ -229,9 +327,16 @@ const ChatInput = styled.input`
   font-size: 1rem;
   background: transparent;
   color: #374151;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+  }
   
   &::placeholder {
     color: #9ca3af;
+    font-family: 'Inter', sans-serif;
   }
 `;
 
@@ -271,6 +376,7 @@ const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  font-family: 'Inter', sans-serif;
   
   @media (max-width: 1024px) {
     flex-direction: row;
@@ -279,6 +385,18 @@ const Sidebar = styled.div`
     
     > * {
       min-width: 300px;
+      flex-shrink: 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    overflow-x: visible;
+    
+    > * {
+      min-width: auto;
+      flex-shrink: 1;
     }
   }
 `;
@@ -293,6 +411,16 @@ const WelcomeMessage = styled.div`
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
   
   &::before {
     content: '';
@@ -302,6 +430,13 @@ const WelcomeMessage = styled.div`
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    @media (max-width: 768px) {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
   }
   
   h3 {
@@ -309,18 +444,33 @@ const WelcomeMessage = styled.div`
     margin-bottom: 1rem;
     font-size: 1.5rem;
     font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
   }
   
   p {
     color: #6b7280;
     margin-bottom: 1.5rem;
     line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+    }
   }
   
   ul {
     text-align: left;
     color: #6b7280;
     line-height: 1.8;
+    font-family: 'Inter', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+    }
     
     li {
       margin-bottom: 0.5rem;
@@ -345,6 +495,11 @@ const LoadingIndicator = styled.div`
   border-radius: 15px;
   margin: 1rem 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
   
   .loading-avatar {
     width: 40px;
@@ -355,6 +510,11 @@ const LoadingIndicator = styled.div`
     align-items: center;
     justify-content: center;
     color: white;
+    
+    @media (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
   }
 `;
 
@@ -445,7 +605,7 @@ function App() {
             <div className="dot"></div>
             Live Data
           </div>
-          <div>Q1-Q4 FY25 | 942+ Data Points</div>
+          <div>Q1-Q4 FY25</div>
         </HeaderInfo>
       </Header>
       
@@ -464,14 +624,14 @@ function App() {
           <ChatMessages>
             {messages.length === 0 && (
               <WelcomeMessage>
-                <h3 style={{ color: '#4f46e5', marginBottom: '1rem' }}>
-                  Welcome to Bajaj Finserv AI Assistant! 🤖
+                <h3 style={{ color: '#4f46e5', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
+                  Welcome to Bajaj Finserv AI Assistant
                 </h3>
-                <p style={{ color: '#6b7280', marginBottom: '1rem' }}>
+                <p style={{ color: '#6b7280', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
                   I can help you analyze Bajaj Finserv's stock performance, earnings call insights, 
                   and provide financial commentary. Try asking me questions like:
                 </p>
-                <ul style={{ textAlign: 'left', color: '#6b7280', lineHeight: '1.6' }}>
+                <ul style={{ textAlign: 'left', color: '#6b7280', lineHeight: '1.6', fontFamily: 'Inter, sans-serif' }}>
                   <li>• What was the highest stock price in Jan-22?</li>
                   <li>• Compare Bajaj Finserv from Mar-22 to Jun-22</li>
                   <li>• Tell me about organic traffic of Bajaj Markets</li>
@@ -490,7 +650,7 @@ function App() {
                   <FiMessageCircle />
                 </div>
                 <div>
-                  <div style={{ fontWeight: '600' }}>AI Assistant is thinking...</div>
+                  <div style={{ fontWeight: '600', fontFamily: 'Inter, sans-serif' }}>AI Assistant is thinking...</div>
                   <LoadingDots>
                     <span></span>
                     <span></span>

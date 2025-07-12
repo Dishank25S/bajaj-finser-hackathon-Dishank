@@ -8,9 +8,19 @@ const MessageContainer = styled.div`
   align-items: flex-start;
   gap: 1rem;
   animation: fadeInUp 0.3s ease-out;
+  font-family: 'Inter', sans-serif;
   ${props => props.isUser && `
     flex-direction: row-reverse;
   `}
+  
+  @media (max-width: 768px) {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 0.5rem;
+  }
   
   @keyframes fadeInUp {
     from {
@@ -37,6 +47,18 @@ const Avatar = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.2);
   
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
   ${props => props.isUser ? `
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   ` : `
@@ -52,6 +74,19 @@ const MessageBubble = styled.div`
   line-height: 1.6;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    max-width: 85%;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  @media (max-width: 480px) {
+    max-width: 90%;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
   
   ${props => props.isUser ? `
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);

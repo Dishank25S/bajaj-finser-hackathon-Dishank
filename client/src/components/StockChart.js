@@ -8,6 +8,16 @@ const Container = styled.div`
   border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h3`
@@ -16,11 +26,28 @@ const Title = styled.h3`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `;
 
 const ChartContainer = styled.div`
   height: 250px;
   margin-top: 1rem;
+  
+  @media (max-width: 768px) {
+    height: 200px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 180px;
+  }
 `;
 
 const StatsContainer = styled.div`
@@ -28,6 +55,11 @@ const StatsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-top: 1rem;
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
 `;
 
 const StatItem = styled.div`
@@ -35,18 +67,37 @@ const StatItem = styled.div`
   padding: 0.75rem;
   border-radius: 8px;
   text-align: center;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 480px) {
+    padding: 0.6rem;
+  }
 `;
 
 const StatValue = styled.div`
   font-size: 1.25rem;
   font-weight: bold;
   color: #4f46e5;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `;
 
 const StatLabel = styled.div`
   font-size: 0.75rem;
   color: #64748b;
   margin-top: 0.25rem;
+  font-family: 'Inter', sans-serif;
+  
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
 `;
 
 // Sample data for the last 30 days (simulated recent performance)

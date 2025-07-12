@@ -131,15 +131,15 @@ const QuestionCategory = styled.div`
 `;
 
 const sampleQuestions = [
-  { category: "Stock Analysis", text: "What was the highest stock price in Jan-22?" },
-  { category: "Comparison", text: "Compare Bajaj Finserv from Mar-22 to Jun-22" },
-  { category: "Business Intelligence", text: "Tell me about organic traffic of Bajaj Markets" },
-  { category: "Insurance", text: "Why is BAGIC facing headwinds in Motor insurance?" },
-  { category: "Partnerships", text: "What's the rationale of Hero partnership?" },
-  { category: "Corporate Action", text: "Give me info on Allianz stake sale discussions" },
-  { category: "CFO Commentary", text: "Act as CFO of BAGIC and help draft investor commentary" },
-  { category: "Stock Analysis", text: "What was the average stock price in Dec-24?" },
-  { category: "Comparison", text: "Compare stock performance from Jan-24 to Dec-24" }
+  { category: "AI Stock Analysis", text: "What was the highest stock price in Jan-22?" },
+  { category: "Intelligent Comparison", text: "Compare Bajaj Finserv performance Mar-22 to Jun-22" },
+  { category: "Business Intelligence", text: "Tell me about BAGIC motor insurance growth trends" },
+  { category: "Subsidiary Analysis", text: "How is Hero FinCorp performing this quarter?" },
+  { category: "Market Insights", text: "What are the key growth drivers for Bajaj Markets?" },
+  { category: "Financial Intelligence", text: "Analyze the revenue growth patterns" },
+  { category: "AI Commentary", text: "Generate CFO commentary for investor presentation" },
+  { category: "Predictive Analysis", text: "What's the outlook for next quarter?" },
+  { category: "Contextual Analysis", text: "Explain the impact of Allianz partnership" }
 ];
 
 function SampleQuestions({ onQuestionClick }) {

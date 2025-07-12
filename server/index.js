@@ -6,11 +6,15 @@ const path = require('path');
 const csv = require('csv-parser');
 const moment = require('moment');
 const _ = require('lodash');
+const BajajAI = require('./services/BajajAI');
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Initialize AI system
+const bajajAI = new BajajAI();
 
 // Middleware
 app.use(cors());
@@ -169,7 +173,7 @@ app.get('/api/stock-price/compare', (req, res) => {
     res.json(comparison);
 });
 
-app.post('/api/chat', (req, res) => {
+app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
     
     if (!message) {
@@ -177,72 +181,81 @@ app.post('/api/chat', (req, res) => {
     }
     
     try {
-        let response = '';
-        const lowerMessage = message.toLowerCase();
+        // Use the new AI system for intelligent responses
+        const aiResponse = await bajajAI.generateResponse(message, {
+            stockData: stockPriceData,
+            transcriptData: transcriptData
+        });
         
-        // CFO Commentary requests
-        if (lowerMessage.includes('cfo') || lowerMessage.includes('commentary') || lowerMessage.includes('investor call')) {
-            response = generateCFOCommentary();
-        }
-        // Business insights
-        else if (lowerMessage.includes('bagic') || lowerMessage.includes('hero') || lowerMessage.includes('allianz') || lowerMessage.includes('bajaj markets')) {
-            const insight = getBusinessInsight(message);
-            if (insight) {
-                response = insight;
-            }
-        }
-        // Stock price queries
-        else if (lowerMessage.includes('stock price') || lowerMessage.includes('highest') || lowerMessage.includes('lowest') || lowerMessage.includes('average')) {
-            // Extract date patterns from message
-            const dateMatches = message.match(/\b\w{3}-\d{2}\b/g);
-            if (dateMatches && dateMatches.length >= 1) {
-                let startDate, endDate;
-                if (dateMatches.length === 1) {
-                    // Single month-year, get full month data
-                    const monthYear = dateMatches[0];
-                    const year = '20' + monthYear.split('-')[1];
-                    const month = moment().month(monthYear.split('-')[0]).format('MM');
-                    startDate = `${year}-${month}-01`;
-                    endDate = moment(`${year}-${month}-01`).endOf('month').format('YYYY-MM-DD');
-                } else {
-                    // Date range
-                    startDate = moment(dateMatches[0], 'MMM-YY').format('YYYY-MM-DD');
-                    endDate = moment(dateMatches[1], 'MMM-YY').endOf('month').format('YYYY-MM-DD');
-                }
-                
-                const stats = getStockPriceStats(startDate, endDate);
-                response = formatStockPriceResponse(stats, message);
-            }
-        }
-        // Compare queries
-        else if (lowerMessage.includes('compare')) {
-            const dateMatches = message.match(/\b\w{3}-\d{2}\b/g);
-            if (dateMatches && dateMatches.length >= 2) {
-                const period1Start = moment(dateMatches[0], 'MMM-YY').format('YYYY-MM-DD');
-                const period1End = moment(dateMatches[0], 'MMM-YY').endOf('month').format('YYYY-MM-DD');
-                const period2Start = moment(dateMatches[1], 'MMM-YY').format('YYYY-MM-DD');
-                const period2End = moment(dateMatches[1], 'MMM-YY').endOf('month').format('YYYY-MM-DD');
-                
-                const comparison = compareStockPeriods(period1Start, period1End, period2Start, period2End);
-                response = formatComparisonResponse(comparison, dateMatches);
-            }
-        }
-        // Transcript-based queries
-        else {
-            const relevantSections = analyzeTranscriptQuery(message);
-            response = formatTranscriptResponse(relevantSections, message);
-        }
-        
-        if (!response) {
-            response = "I couldn't find specific information related to your query. Could you please rephrase or provide more specific details? Try asking about stock prices (e.g., 'highest price in Jan-22'), business insights (e.g., 'BAGIC motor insurance'), or request CFO commentary.";
-        }
-        
-        res.json({ response });
+        res.json({
+            response: aiResponse.response,
+            confidence: aiResponse.confidence,
+            sources: aiResponse.sources,
+            suggestions: aiResponse.suggestions,
+            timestamp: new Date().toISOString()
+        });
     } catch (error) {
         console.error('Chat error:', error);
-        res.status(500).json({ error: 'An error occurred while processing your request' });
+        
+        // Fallback to basic response system if AI fails
+        try {
+            const fallbackResponse = generateBasicResponse(message);
+            res.json({ 
+                response: fallbackResponse,
+                confidence: 0.6,
+                fallback: true 
+            });
+        } catch (fallbackError) {
+            console.error('Fallback error:', fallbackError);
+            res.status(500).json({ 
+                error: 'An error occurred while processing your request',
+                message: 'Please try rephrasing your question or contact support.'
+            });
+        }
     }
 });
+
+// Fallback response system (using existing logic)
+function generateBasicResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // CFO Commentary requests
+    if (lowerMessage.includes('cfo') || lowerMessage.includes('commentary') || lowerMessage.includes('investor call')) {
+        return generateCFOCommentary();
+    }
+    // Business insights
+    else if (lowerMessage.includes('bagic') || lowerMessage.includes('hero') || lowerMessage.includes('allianz') || lowerMessage.includes('bajaj markets')) {
+        const insight = getBusinessInsight(message);
+        if (insight) {
+            return insight;
+        }
+    }
+    // Stock price queries
+    else if (lowerMessage.includes('stock price') || lowerMessage.includes('highest') || lowerMessage.includes('lowest') || lowerMessage.includes('average')) {
+        // Extract date patterns from message
+        const dateMatches = message.match(/\b\w{3}-\d{2}\b/g);
+        if (dateMatches && dateMatches.length >= 1) {
+            let startDate, endDate;
+            if (dateMatches.length === 1) {
+                // Single month-year, get full month data
+                const monthYear = dateMatches[0];
+                const year = '20' + monthYear.split('-')[1];
+                const month = moment().month(monthYear.split('-')[0]).format('MM');
+                startDate = `${year}-${month}-01`;
+                endDate = moment(`${year}-${month}-01`).endOf('month').format('YYYY-MM-DD');
+            } else {
+                // Date range
+                startDate = moment(dateMatches[0], 'MMM-YY').format('YYYY-MM-DD');
+                endDate = moment(dateMatches[1], 'MMM-YY').endOf('month').format('YYYY-MM-DD');
+            }
+            
+            const stats = getStockPriceStats(startDate, endDate);
+            return formatStockPriceResponse(stats, message);
+        }
+    }
+    
+    return "I'm here to help with Bajaj Finserv information. Try asking about stock prices, financial performance, or our subsidiaries like BAGIC, Hero FinCorp, or Allianz.";
+}
 
 function formatStockPriceResponse(stats, originalMessage) {
     if (stats.error) return stats.error;
@@ -501,14 +514,127 @@ Planning similar partnerships with Bajaj Auto and TVS Motors for comprehensive t
     return null;
 }
 
+// AI Training Management Endpoints
+
+// Get training status and statistics
+app.get('/api/training-status', (req, res) => {
+    try {
+        const status = {
+            trainingDataCount: bajajAI.trainingData.length,
+            knowledgeBaseSize: bajajAI.knowledgeBase.size,
+            conversationHistory: bajajAI.conversationHistory.length,
+            lastTrainingDate: new Date().toISOString(),
+            dataTypes: {
+                stock_data: bajajAI.trainingData.filter(item => item.type === 'stock_price').length,
+                transcripts: bajajAI.trainingData.filter(item => item.type === 'transcript_section').length,
+                financial_data: bajajAI.trainingData.filter(item => item.type === 'financial_data').length
+            }
+        };
+        
+        res.json(status);
+    } catch (error) {
+        console.error('Training status error:', error);
+        res.status(500).json({ error: 'Unable to get training status' });
+    }
+});
+
+// Retrain AI with new data
+app.post('/api/retrain', async (req, res) => {
+    try {
+        console.log('Manual retrain requested...');
+        await bajajAI.trainWithData('data');
+        
+        res.json({ 
+            success: true, 
+            message: 'AI retrained successfully',
+            dataCount: bajajAI.trainingData.length,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Retrain error:', error);
+        res.status(500).json({ 
+            error: 'Retrain failed', 
+            details: error.message 
+        });
+    }
+});
+
+// Get AI capabilities and features
+app.get('/api/ai-capabilities', (req, res) => {
+    res.json({
+        features: [
+            'Stock price analysis and trends',
+            'Earnings transcript analysis',
+            'Financial performance insights',
+            'Subsidiary business information',
+            'Comparative analysis',
+            'Contextual conversation memory',
+            'Confidence scoring',
+            'Source attribution'
+        ],
+        supportedQueries: [
+            'Stock price queries (e.g., "What was the highest stock price in Jan-23?")',
+            'Financial performance (e.g., "Tell me about revenue growth")',
+            'Subsidiary information (e.g., "How is BAGIC performing?")',
+            'Trend analysis (e.g., "Show me the growth trend")',
+            'Comparative analysis (e.g., "Compare Q1 vs Q2 performance")',
+            'CFO commentary requests'
+        ],
+        dataTypes: [
+            'CSV stock price data',
+            'Text earnings transcripts',
+            'JSON financial reports',
+            'Business documents'
+        ]
+    });
+});
+
+// Get conversation suggestions based on current context
+app.get('/api/suggestions', (req, res) => {
+    const suggestions = [
+        "What was the stock performance last quarter?",
+        "Tell me about BAGIC's growth",
+        "Show me revenue trends",
+        "Compare this year vs last year",
+        "What are the key financial metrics?",
+        "Generate CFO commentary",
+        "How is Hero FinCorp performing?",
+        "What's the outlook for next quarter?"
+    ];
+    
+    res.json({ suggestions });
+});
+
+// Health check for AI system
+app.get('/api/ai-health', (req, res) => {
+    const health = {
+        status: 'healthy',
+        aiLoaded: bajajAI ? true : false,
+        trainingComplete: bajajAI.trainingData.length > 0,
+        dataConnections: {
+            stockData: stockPriceData.length > 0,
+            transcriptData: transcriptData.length > 0
+        },
+        timestamp: new Date().toISOString()
+    };
+    
+    res.json(health);
+});
+
 // Initialize data loading
 async function initializeApp() {
     try {
         await loadStockPriceData();
         loadTranscriptData();
         
+        // Train the AI system with available data
+        console.log('Training AI system...');
+        await bajajAI.trainWithData('data');
+        console.log('AI training completed successfully!');
+        
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
+            console.log('AI-powered Bajaj Finserv Chatbot is ready!');
         });
     } catch (error) {
         console.error('Failed to initialize app:', error);

@@ -1,0 +1,110 @@
+{
+  "company_overview": {
+    "name": "Bajaj Finserv Limited",
+    "founded": "2007",
+    "headquarters": "Pune, India",
+    "market_cap": "₹1,50,000+ crores (approximate)",
+    "listing": "BSE and NSE",
+    "sector": "Financial Services",
+    "business_model": "Diversified financial services holding company"
+  },
+  "business_segments": {
+    "insurance": {
+      "general_insurance": {
+        "company": "Bajaj Allianz General Insurance Company Limited (BAGIC)",
+        "ownership": "74% Bajaj Finserv, 26% Allianz SE",
+        "market_position": "Leading private general insurer in India",
+        "key_products": ["Motor Insurance", "Health Insurance", "Travel Insurance", "Commercial Insurance"],
+        "fy24_metrics": {
+          "gross_written_premium": "₹20,000+ crores",
+          "market_share": "9.8%",
+          "claims_ratio": "68.5%"
+        }
+      },
+      "life_insurance": {
+        "company": "Bajaj Allianz Life Insurance Company Limited (BALIC)",
+        "ownership": "74% Bajaj Finserv, 26% Allianz SE",
+        "market_position": "Top 5 private life insurer",
+        "key_products": ["Term Insurance", "ULIP", "Traditional Plans", "Pension Plans"],
+        "fy24_metrics": {
+          "new_business_premium": "₹8,500+ crores",
+          "aum": "₹75,000+ crores",
+          "persistency_ratio": "85%+"
+        }
+      }
+    },
+    "lending_and_investments": {
+      "bajaj_finance": {
+        "company": "Bajaj Finance Limited",
+        "ownership": "52.49% by Bajaj Finserv",
+        "market_position": "Largest NBFC in India",
+        "key_products": ["Consumer Durables Financing", "Personal Loans", "Business Loans", "Credit Cards"],
+        "fy24_metrics": {
+          "aum": "₹3,00,000+ crores",
+          "customer_base": "7+ crore customers",
+          "net_interest_income": "₹30,000+ crores"
+        }
+      }
+    },
+    "asset_management": {
+      "bajaj_finserv_asset_management": {
+        "company": "Bajaj Finserv Asset Management Limited",
+        "ownership": "100% Bajaj Finserv",
+        "key_products": ["Mutual Funds", "Portfolio Management Services", "Alternative Investment Funds"],
+        "aum": "₹15,000+ crores"
+      }
+    },
+    "securities": {
+      "bajaj_financial_securities": {
+        "company": "Bajaj Financial Securities Limited",
+        "ownership": "100% Bajaj Finserv",
+        "services": ["Broking Services", "Investment Banking", "Research"]
+      }
+    }
+  },
+  "financial_highlights": {
+    "fy24": {
+      "total_income": "₹2,500+ crores",
+      "profit_after_tax": "₹2,200+ crores",
+      "return_on_equity": "25%+",
+      "dividend_payout": "₹10 per share"
+    },
+    "q1_fy25": {
+      "total_income": "₹650+ crores",
+      "profit_after_tax": "₹550+ crores",
+      "growth_yoy": "15%+"
+    }
+  },
+  "key_strengths": [
+    "Strong brand recognition and trust",
+    "Diversified financial services portfolio",
+    "Strategic partnership with Allianz",
+    "Technology-driven operations",
+    "Strong distribution network",
+    "Experienced management team"
+  ],
+  "competitive_advantages": [
+    "Market leadership in multiple segments",
+    "Cross-selling opportunities across business lines",
+    "Strong capital position",
+    "Robust risk management framework",
+    "Digital-first approach"
+  ],
+  "esg_initiatives": {
+    "environmental": [
+      "Carbon neutral operations",
+      "Green finance products",
+      "Sustainable business practices"
+    ],
+    "social": [
+      "Financial inclusion programs",
+      "Rural insurance penetration",
+      "Employee welfare programs"
+    ],
+    "governance": [
+      "Strong board composition",
+      "Transparent reporting",
+      "Ethical business practices"
+    ]
+  }
+}

@@ -602,6 +602,10 @@ function App() {
         <HeaderInfo>
           <div className="status-indicator">
             <div className="dot"></div>
+            AI-Powered
+          </div>
+          <div className="status-indicator">
+            <div className="dot" style={{ backgroundColor: '#10b981' }}></div>
             Live Data
           </div>
           <div>Q1-Q4 FY25</div>
@@ -615,8 +619,8 @@ function App() {
               <FiMessageCircle size={28} />
             </div>
             <div className="chat-info">
-              <h3>AI Financial Assistant</h3>
-              <p>Ask me about stock prices, earnings insights, and business intelligence</p>
+              <h3>Advanced AI Financial Assistant</h3>
+              <p>Trained on financial data with intelligent context understanding</p>
             </div>
           </ChatHeader>
           
@@ -624,17 +628,18 @@ function App() {
             {messages.length === 0 && (
               <WelcomeMessage>
                 <h3 style={{ color: '#4f46e5', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
-                  Welcome to Bajaj Finserv AI Assistant
+                  Welcome to Advanced AI-Powered Financial Assistant
                 </h3>
                 <p style={{ color: '#6b7280', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
-                  I can help you analyze Bajaj Finserv's stock performance, earnings call insights, 
-                  and provide financial commentary. Try asking me questions like:
+                  I'm trained on Bajaj Finserv's financial data and can provide intelligent insights with contextual understanding. 
+                  I learn from our conversations and provide confidence-scored responses with source attribution.
                 </p>
                 <ul style={{ textAlign: 'left', color: '#6b7280', lineHeight: '1.6', fontFamily: 'Inter, sans-serif' }}>
-                  <li>• What was the highest stock price in Jan-22?</li>
-                  <li>• Compare Bajaj Finserv from Mar-22 to Jun-22</li>
-                  <li>• Tell me about organic traffic of Bajaj Markets</li>
-                  <li>• Why is BAGIC facing headwinds in Motor insurance?</li>
+                  <li>• Intelligent stock price analysis and predictions</li>
+                  <li>• Contextual earnings insights and trend analysis</li>
+                  <li>• Business intelligence for subsidiaries (BAGIC, Hero FinCorp)</li>
+                  <li>• AI-generated CFO commentary and financial reports</li>
+                  <li>• Comparative analysis with confidence scoring</li>
                 </ul>
               </WelcomeMessage>
             )}

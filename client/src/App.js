@@ -206,7 +206,7 @@ const Logo = styled.div`
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, #007BFF 0%, #FFD700 100%);
+      background: linear-gradient(90deg, #007BFF 0%, #0080FF 100%);
       border-radius: 1px;
       opacity: 0.6;
     }
@@ -218,7 +218,7 @@ const Logo = styled.div`
     }
     
     .brand-accent {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      background: linear-gradient(135deg, #0080FF 0%, #007BFF 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -288,7 +288,7 @@ const HeaderInfo = styled.div`
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #00D4AA;
+      background: #007BFF;
       box-shadow: 
         0 0 15px rgba(0, 212, 170, 0.8),
         0 0 30px rgba(0, 212, 170, 0.4);
@@ -354,15 +354,15 @@ const HeaderInfo = styled.div`
     }
     
     .ai-icon {
-      color: #FFD700;
+      color: #007BFF;
       font-size: 1.1rem;
-      filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+      filter: drop-shadow(0 2px 4px rgba(0, 123, 255, 0.3));
     }
     
     .ai-text {
       font-size: 0.85rem;
       font-weight: 600;
-      color: #FFD700;
+      color: #007BFF;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
   }

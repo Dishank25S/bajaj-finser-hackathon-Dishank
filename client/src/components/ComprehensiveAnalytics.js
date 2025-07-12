@@ -148,7 +148,7 @@ const MetricCard = styled.div`
 const MetricValue = styled.div`
   font-size: 1.4rem;
   font-weight: bold;
-  color: #6366f1;
+  color: #007BFF;
   margin-bottom: 0.25rem;
 `;
 
@@ -174,9 +174,9 @@ const quarterlyData = [
 ];
 
 const segmentData = [
-  { name: 'General Insurance', value: 45, color: '#6366f1' },
-  { name: 'Life Insurance', value: 35, color: '#8b5cf6' },
-  { name: 'Lending', value: 20, color: '#a855f7' }
+  { name: 'General Insurance', value: 45, color: '#007BFF' },
+  { name: 'Life Insurance', value: 35, color: '#0056B3' },
+  { name: 'Lending', value: 20, color: '#003D7A' }
 ];
 
 const stockPerformanceData = [
@@ -211,7 +211,7 @@ function ComprehensiveAnalytics() {
             ]}
             labelStyle={{ color: '#374151' }}
           />
-          <Bar dataKey="revenue" fill="#6366f1" name="revenue" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="revenue" fill="#007BFF" name="revenue" radius={[4, 4, 0, 0]} />
           <Bar dataKey="profit" fill="#10b981" name="profit" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
@@ -258,9 +258,9 @@ function ComprehensiveAnalytics() {
           <Line 
             type="monotone" 
             dataKey="price" 
-            stroke="#6366f1" 
+            stroke="#007BFF" 
             strokeWidth={3}
-            dot={{ fill: '#6366f1', strokeWidth: 2, r: 5 }}
+            dot={{ fill: '#007BFF', strokeWidth: 2, r: 5 }}
             activeDot={{ r: 7 }}
           />
         </LineChart>

@@ -140,7 +140,7 @@ const Timestamp = styled.div`
 
 const MessageStatus = styled.div`
   font-size: 0.75rem;
-  color: #10b981;
+  color: #007BFF;
   display: flex;
   align-items: center;
   gap: 0.25rem;

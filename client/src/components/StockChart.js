@@ -21,7 +21,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-  color: #4f46e5;
+  color: #007BFF;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -77,7 +77,7 @@ const StatItem = styled.div`
 const StatValue = styled.div`
   font-size: 1.25rem;
   font-weight: bold;
-  color: #4f46e5;
+  color: #007BFF;
   font-family: 'Inter', sans-serif;
   
   @media (max-width: 768px) {
@@ -181,9 +181,9 @@ function StockChart() {
             <Line 
               type="monotone" 
               dataKey="price" 
-              stroke="#4f46e5" 
+              stroke="#007BFF" 
               strokeWidth={2}
-              dot={{ fill: '#4f46e5', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#007BFF', strokeWidth: 2, r: 4 }}
               activeDot={{ r: 6 }}
             />
           </LineChart>

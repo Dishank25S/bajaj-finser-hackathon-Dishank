@@ -1040,13 +1040,6 @@ function App() {
                   I'm trained on Bajaj Finserv's financial data and can provide intelligent insights with contextual understanding. 
                   I learn from our conversations and provide confidence-scored responses with source attribution.
                 </p>
-                <ul style={{ textAlign: 'left', color: '#6b7280', lineHeight: '1.6', fontFamily: 'Inter, sans-serif' }}>
-                  <li>• Intelligent stock price analysis and predictions</li>
-                  <li>• Contextual earnings insights and trend analysis</li>
-                  <li>• Business intelligence for subsidiaries (BAGIC, Hero FinCorp)</li>
-                  <li>• AI-generated CFO commentary and financial reports</li>
-                  <li>• Comparative analysis with confidence scoring</li>
-                </ul>
               </WelcomeMessage>
             )}
             

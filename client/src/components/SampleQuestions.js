@@ -189,7 +189,15 @@ const sampleQuestions = [
   { category: "Financial Intelligence", text: "Analyze the revenue growth patterns" },
   { category: "AI Commentary", text: "Generate CFO commentary for investor presentation" },
   { category: "Predictive Analysis", text: "What's the outlook for next quarter?" },
-  { category: "Contextual Analysis", text: "Explain the impact of Allianz partnership" }
+  { category: "Contextual Analysis", text: "Explain the impact of Allianz partnership" },
+  { category: "Quarterly Analysis", text: "Show me Q1 vs Q2 vs Q3 performance comparison" },
+  { category: "AUM Intelligence", text: "What were the Q3 FY25 AUM numbers for all businesses?" },
+  { category: "ROE Progression", text: "Analyze ROE progression across all quarters" },
+  { category: "Housing Finance", text: "Compare housing finance performance quarterly" },
+  { category: "Insurance Analysis", text: "BAGIC vs BALIC performance analysis" },
+  { category: "Digital Transformation", text: "Digital transformation progress across quarters" },
+  { category: "ESG Intelligence", text: "ESG initiatives and green finance growth trends" },
+  { category: "Comprehensive View", text: "Complete subsidiary performance overview" }
 ];
 
 function SampleQuestions({ onQuestionClick }) {

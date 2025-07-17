@@ -5,6 +5,12 @@ const FORCE_LOCAL_FALLBACK = false; // Try API first, fallback to local AI
 
 // Smart API URL detection for different deployment platforms
 const getApiBaseUrl = () => {
+  // Check if window is available (browser environment)
+  if (typeof window === 'undefined') {
+    // Server-side rendering or build time
+    return '/api';
+  }
+  
   // For Netlify deployment
   if (window.location.hostname.includes('netlify')) {
     return '/.netlify/functions';
@@ -194,9 +200,6 @@ For more specific insights about any particular quarter, metric, or business seg
     source: "Bajaj Finserv Comprehensive AI Training Database (All Quarters)",
     mode: "ai_comprehensive",
     dataPoints: "Complete FY24-FY25 Quarterly Dataset",
-    timestamp: new Date().toISOString()
-  };
-};
     timestamp: new Date().toISOString()
   };
 };

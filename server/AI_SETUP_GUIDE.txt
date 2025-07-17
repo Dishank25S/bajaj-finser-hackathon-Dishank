@@ -1,0 +1,390 @@
+================================================================================
+                 BAJAJ FINSERV AI ASSISTANT - OFFLINE AI SETUP GUIDE
+================================================================================
+
+🎯 OVERVIEW
+================================================================================
+This guide will help you set up a complete offline AI chatbot for the Bajaj 
+Finserv AI Assistant that can answer questions based on PDF earnings transcripts
+using local LLM (Large Language Model) without any external API calls.
+
+🔧 TECHNOLOGY STACK
+================================================================================
+- Frontend: React.js (existing)
+- Backend: Node.js + Express (existing) 
+- AI Engine: Ollama + Mistral 7B
+- Vector Database: LlamaIndex with HuggingFace embeddings
+- Document Processing: Python scripts
+- Embeddings: sentence-transformers/all-MiniLM-L6-v2
+
+📋 PREREQUISITES
+================================================================================
+✅ Node.js 16+ and npm
+✅ Python 3.8+ 
+✅ pip (Python package manager)
+✅ Git
+✅ At least 8GB RAM (for Mistral model)
+✅ At least 10GB free disk space
+
+🚀 QUICK SETUP (Automated)
+================================================================================
+
+Windows Users:
+1. Open Command Prompt/PowerShell as Administrator
+2. Navigate to server directory:
+   cd c:\Users\Admin\Documents\GitHub\bajaj-finser-hackathon-Dishank\server
+3. Run setup script:
+   setup.bat
+
+Linux/Mac Users:
+1. Open Terminal
+2. Navigate to server directory:
+   cd /path/to/bajaj-finser-hackathon-Dishank/server
+3. Make script executable and run:
+   chmod +x setup.sh
+   ./setup.sh
+
+📝 MANUAL SETUP (Step-by-Step)
+================================================================================
+
+STEP 1: Install Python Dependencies
+------------------------------------
+cd server
+pip install -r requirements.txt
+
+Required packages will be installed:
+- llama-index (vector database and query engine)
+- llama-index-llms-ollama (Ollama integration)
+- llama-index-embeddings-huggingface (embeddings)
+- torch, transformers, sentence-transformers (ML libraries)
+- pypdf (PDF processing)
+
+STEP 2: Install and Setup Ollama
+---------------------------------
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Start Ollama service (keep this running)
+ollama serve
+
+# Download Mistral model (in a new terminal)
+ollama pull mistral
+
+# Verify installation
+ollama list
+
+STEP 3: Build AI Index from Transcripts
+----------------------------------------
+cd server
+python build_index.py
+
+This will:
+- Load all documents from /server/transcripts/
+- Create vector embeddings using HuggingFace
+- Build searchable index
+- Save to /server/storage/ directory
+
+STEP 4: Test AI Query System
+-----------------------------
+# Test the query system
+python query_llm.py "What was Bajaj Finance's revenue in Q1 FY25?"
+
+Expected output:
+{
+  "response": "Based on the Q1 FY25 earnings transcript...",
+  "confidence": 0.9,
+  "query": "What was Bajaj Finance's revenue in Q1 FY25?",
+  "source": "Bajaj Finance FY25 Earnings Transcripts"
+}
+
+STEP 5: Start Complete Application
+----------------------------------
+# Terminal 1: Start Ollama (if not already running)
+ollama serve
+
+# Terminal 2: Start Backend
+cd server
+node index.js
+
+# Terminal 3: Start Frontend
+cd client
+npm start
+
+🏗️ FILE STRUCTURE AFTER SETUP
+================================================================================
+
+server/
+├── transcripts/              # PDF/text earnings transcripts
+│   ├── Q1_FY25_Earnings_Call.txt
+│   ├── Q2_FY25_Earnings_Call.txt
+│   ├── Q3_FY25_Earnings_Call.txt
+│   └── Q4_FY25_Earnings_Call.txt
+├── storage/                  # AI vector index (auto-generated)
+│   ├── default__vector_store.json
+│   ├── docstore.json
+│   ├── graph_store.json
+│   └── index_store.json
+├── build_index.py           # Creates AI index from documents
+├── query_llm.py            # Processes user queries
+├── requirements.txt        # Python dependencies
+├── setup.bat              # Windows setup script
+├── setup.sh               # Linux/Mac setup script
+├── start-ai-server.bat    # Windows start script
+└── index.js               # Updated Express server with AI endpoint
+
+🔌 API INTEGRATION DETAILS
+================================================================================
+
+NEW AI ENDPOINT: POST /api/chat
+-------------------------------
+Request:
+{
+  "message": "What was the ROE in Q3 FY25?"
+}
+
+Response:
+{
+  "response": "According to the Q3 FY25 earnings transcript, Bajaj Finance achieved a Return on Equity (ROE) of 22.1% in Q3 FY25...",
+  "confidence": 0.9,
+  "source": "Bajaj Finance AI Assistant", 
+  "query": "What was the ROE in Q3 FY25?",
+  "timestamp": "2025-07-14T10:30:00.000Z"
+}
+
+ERROR HANDLING & FALLBACKS
+---------------------------
+1. If Python AI fails → Falls back to existing BajajAI system
+2. If BajajAI fails → Falls back to basic response system
+3. Graceful error messages for all scenarios
+4. 30-second timeout for AI queries
+
+🤖 AI CAPABILITIES
+================================================================================
+
+SUPPORTED QUERY TYPES:
+----------------------
+✅ Financial metrics (ROE, ROA, NIM, etc.)
+✅ Revenue and profit analysis
+✅ Business segment performance
+✅ Subsidiary information (BAGIC, Hero FinCorp)
+✅ Stock price analysis
+✅ Management commentary
+✅ Comparative analysis across quarters
+✅ Risk and outlook discussion
+
+EXAMPLE QUERIES:
+---------------
+- "What was Bajaj Finance's profit in Q2 FY25?"
+- "Compare ROE across all quarters in FY25"
+- "Tell me about BAGIC's performance"
+- "What did the management say about credit costs?"
+- "How did the digital transformation progress?"
+- "What are the growth targets for FY26?"
+
+RESPONSE FEATURES:
+-----------------
+✅ Context-aware answers based on actual transcripts
+✅ Specific data points and metrics
+✅ Management quotes and commentary
+✅ Confidence scoring (0.0 to 1.0)
+✅ Source attribution
+✅ Graceful handling of unavailable information
+
+🔧 TROUBLESHOOTING
+================================================================================
+
+ISSUE: "Import error: No module named 'llama_index'"
+SOLUTION: 
+pip install llama-index llama-index-llms-ollama llama-index-embeddings-huggingface
+
+ISSUE: "Ollama not found"
+SOLUTION:
+1. Install Ollama from https://ollama.com
+2. Ensure ollama is in your PATH
+3. Start ollama service: ollama serve
+
+ISSUE: "Failed to download Mistral model"
+SOLUTION:
+1. Check internet connection
+2. Ensure sufficient disk space (4GB+)
+3. Try: ollama pull mistral:7b
+
+ISSUE: "No documents found in transcripts directory"
+SOLUTION:
+1. Ensure transcript files are in /server/transcripts/
+2. Check file permissions
+3. Verify files are readable text/PDF format
+
+ISSUE: "Python script timeout"
+SOLUTION:
+1. Increase timeout in index.js (currently 30 seconds)
+2. Ensure Mistral model is loaded: ollama list
+3. Check system resources (RAM/CPU)
+
+ISSUE: "AI responses are generic"
+SOLUTION:
+1. Rebuild index: python build_index.py
+2. Check transcript content quality
+3. Verify embeddings are working
+
+ISSUE: "High memory usage"
+SOLUTION:
+1. Close other applications
+2. Use smaller model: ollama pull mistral:7b-instruct
+3. Reduce chunk_size in build_index.py
+
+⚡ PERFORMANCE OPTIMIZATION
+================================================================================
+
+MEMORY OPTIMIZATION:
+-------------------
+- Use quantized models for lower memory usage
+- Adjust chunk_size and similarity_top_k parameters
+- Clear Ollama cache: ollama rm mistral && ollama pull mistral
+
+SPEED OPTIMIZATION:
+------------------
+- Keep Ollama service running continuously
+- Pre-build index during setup
+- Use SSD storage for better I/O
+- Increase system RAM if possible
+
+ACCURACY OPTIMIZATION:
+---------------------
+- Use high-quality, well-formatted transcripts
+- Optimize chunk_size (currently 512)
+- Adjust similarity_top_k (currently 3)
+- Fine-tune prompt engineering in query_llm.py
+
+🔒 SECURITY CONSIDERATIONS
+================================================================================
+
+DATA PRIVACY:
+------------
+✅ All processing happens locally (offline)
+✅ No data sent to external APIs
+✅ Transcript data stays on your system
+✅ No telemetry or usage tracking
+
+INPUT VALIDATION:
+----------------
+✅ Message sanitization in backend
+✅ Command injection prevention
+✅ Timeout limits on AI queries
+✅ Error message sanitization
+
+SYSTEM SECURITY:
+---------------
+✅ Python script execution with limited permissions
+✅ No arbitrary code execution
+✅ Sandboxed AI processing
+✅ Rate limiting on API endpoints
+
+📈 MONITORING & MAINTENANCE
+================================================================================
+
+LOGS TO MONITOR:
+---------------
+- Node.js server logs (console output)
+- Python script execution logs
+- Ollama service logs
+- Frontend network requests
+
+REGULAR MAINTENANCE:
+-------------------
+1. Update transcript files as new earnings calls are released
+2. Rebuild index after adding new documents: python build_index.py
+3. Update Python dependencies: pip install -r requirements.txt --upgrade
+4. Update Ollama and models: ollama pull mistral
+
+PERFORMANCE METRICS:
+-------------------
+- Query response time (should be < 10 seconds)
+- AI confidence scores (aim for > 0.7)
+- Memory usage (monitor with Task Manager/htop)
+- Disk space (vector index grows with more documents)
+
+🎯 ADVANCED CONFIGURATION
+================================================================================
+
+CUSTOM MODEL SELECTION:
+----------------------
+# Use different Ollama models
+# Edit query_llm.py and build_index.py:
+llm = Ollama(model="llama2")  # or "codellama", "neural-chat"
+
+EMBEDDING MODEL TUNING:
+----------------------
+# Edit build_index.py for different embeddings:
+embed_model = HuggingFaceEmbedding(
+    model_name="sentence-transformers/all-mpnet-base-v2"  # Higher accuracy
+    # model_name="sentence-transformers/all-MiniLM-L6-v2"  # Faster, current default
+)
+
+CHUNK SIZE OPTIMIZATION:
+-----------------------
+# Edit build_index.py:
+Settings.chunk_size = 1024      # Larger chunks (more context)
+Settings.chunk_overlap = 100    # More overlap (better continuity)
+
+RESPONSE CUSTOMIZATION:
+----------------------
+# Edit query_llm.py enhanced_query template for:
+- Different response styles
+- Specific output formats
+- Custom instructions
+
+📚 ADDITIONAL RESOURCES
+================================================================================
+
+DOCUMENTATION:
+-------------
+- LlamaIndex: https://docs.llamaindex.ai/
+- Ollama: https://ollama.com/docs
+- HuggingFace Transformers: https://huggingface.co/docs
+
+COMMUNITY SUPPORT:
+-----------------
+- LlamaIndex Discord: https://discord.gg/dGcwcsnxhU
+- Ollama GitHub: https://github.com/ollama/ollama
+- Project Repository: https://github.com/Dishank25S/bajaj-finser-hackathon-Dishank
+
+MODEL ALTERNATIVES:
+------------------
+- Mistral 7B (default): Good balance of speed and accuracy
+- Llama2 7B: Alternative open-source option  
+- CodeLlama: Better for technical/financial analysis
+- Neural-Chat: Optimized for conversational responses
+
+🎉 SUCCESS INDICATORS
+================================================================================
+
+✅ Setup Complete When:
+- ollama list shows "mistral" model
+- python query_llm.py returns JSON response
+- /server/storage/ directory contains index files
+- Backend starts without errors on port 5000
+- Frontend connects and shows chat interface
+
+✅ AI Working When:
+- Chat responses include specific financial data
+- Confidence scores are typically > 0.7
+- Responses reference actual transcript content
+- No generic "I don't know" responses for basic queries
+
+✅ Production Ready When:
+- Response times < 10 seconds consistently
+- Error handling works for all scenarios
+- Fallback systems activate properly
+- Memory usage stable during extended operation
+
+================================================================================
+                              END OF AI SETUP GUIDE
+================================================================================
+
+Version: 1.0
+Last Updated: July 14, 2025
+Compatible with: Bajaj Finserv AI Assistant v1.0
+
+For technical support or questions, refer to the main documentation file:
+BAJAJ_FINSERV_AI_ASSISTANT_DOCUMENTATION.txt

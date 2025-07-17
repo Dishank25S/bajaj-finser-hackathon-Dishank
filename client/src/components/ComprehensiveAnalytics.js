@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { FiTrendingUp, FiBarChart, FiPieChart, FiActivity } from 'react-icons/fi';
+import { FiTrendingUp, FiBarChart, FiPieChart, FiActivity, FiExternalLink } from 'react-icons/fi';
 
 const Container = styled.div`
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   
   @media (max-width: 768px) {
-    padding: 1.25rem;
-    border-radius: 16px;
+    padding: 1rem;
+    border-radius: 10px;
   }
   
   @media (max-width: 480px) {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   &::before {
@@ -29,50 +32,91 @@ const Container = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 2px;
     background: linear-gradient(90deg, #007BFF, #0056B3, #003D7A);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     
     @media (max-width: 768px) {
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
     }
+  }
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
   }
 `;
 
 const Title = styled.h3`
   color: #007BFF;
-  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1.3rem;
+  gap: 0.5rem;
+  font-size: 1.1rem;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
+  margin: 0;
   
   @media (max-width: 768px) {
-    font-size: 1.1rem;
-    margin-bottom: 1.25rem;
+    font-size: 1rem;
   }
   
-  @media (max-width: 480px) {
-    font-size: 1rem;
-    gap: 0.5rem;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+const DetailsButton = styled.button`
+  background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #0066CC 0%, #004799 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  svg {
+    width: 14px;
+    height: 14px;
   }
 `;
 
 const TabContainer = styled.div`
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   background: #f1f5f9;
-  padding: 0.25rem;
+  padding: 0.375rem;
   border-radius: 12px;
   
   @media (max-width: 768px) {
     flex-wrap: wrap;
-    gap: 0.25rem;
+    gap: 0.375rem;
   }
   
   @media (max-width: 480px) {
@@ -87,6 +131,10 @@ const Tab = styled.button`
   border: none;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
   
   @media (max-width: 768px) {
     padding: 0.6rem 0.8rem;
@@ -97,16 +145,13 @@ const Tab = styled.button`
     padding: 0.5rem;
     font-size: 0.8rem;
   }
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  font-weight: 600;
   
   ${props => props.active ? `
     background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
     color: white;
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
     border-radius: 8px;
+    transform: translateY(-1px);
   ` : `
     background: transparent;
     color: #64748b;
@@ -120,15 +165,37 @@ const Tab = styled.button`
 `;
 
 const ChartContainer = styled.div`
-  height: 300px;
+  height: 280px;
   margin: 1rem 0;
+  flex: 1;
+  min-height: 250px;
+  
+  @media (max-width: 768px) {
+    height: 240px;
+    min-height: 200px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 200px;
+    min-height: 180px;
+  }
 `;
 
 const MetricsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
 `;
 
 const MetricCard = styled.div`
@@ -137,11 +204,20 @@ const MetricCard = styled.div`
   border-radius: 12px;
   text-align: center;
   border: 1px solid #e2e8f0;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 123, 255, 0.2);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem;
   }
 `;
 
@@ -149,13 +225,25 @@ const MetricValue = styled.div`
   font-size: 1.4rem;
   font-weight: bold;
   color: #007BFF;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.375rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const MetricLabel = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #64748b;
   font-weight: 600;
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const MetricChange = styled.div`
@@ -164,6 +252,7 @@ const MetricChange = styled.div`
   font-weight: 600;
   ${props => props.positive ? 'color: #10b981;' : 'color: #ef4444;'}
 `;
+
 
 // Enhanced data with quarterly performance
 const quarterlyData = [
@@ -194,7 +283,7 @@ const stockPerformanceData = [
   { month: 'Jun 25', price: 2010, volume: 3.9 }
 ];
 
-function ComprehensiveAnalytics() {
+function ComprehensiveAnalytics({ onShowDetails }) {
   const [activeTab, setActiveTab] = useState('performance');
 
   const renderPerformanceChart = () => (
@@ -298,10 +387,18 @@ function ComprehensiveAnalytics() {
 
   return (
     <Container>
-      <Title>
-        <FiBarChart />
-        Comprehensive Analytics
-      </Title>
+      <HeaderContainer>
+        <Title>
+          <FiBarChart />
+          Comprehensive Analytics
+        </Title>
+        {onShowDetails && (
+          <DetailsButton onClick={onShowDetails}>
+            <FiExternalLink />
+            View Details
+          </DetailsButton>
+        )}
+      </HeaderContainer>
       
       <TabContainer>
         <Tab 

@@ -4,10 +4,12 @@ import { FiSend, FiMessageCircle, FiTrendingUp } from 'react-icons/fi';
 import ChatMessage from './components/ChatMessage';
 import SampleQuestions from './components/SampleQuestions';
 import ComprehensiveAnalytics from './components/ComprehensiveAnalytics';
+import DetailedAnalytics from './components/DetailedAnalytics';
 import { sendMessage } from './api/chatApi';
 
 const AppContainer = styled.div`
   min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, 
@@ -19,8 +21,8 @@ const AppContainer = styled.div`
     #003366 90%, 
     #002952 100%);
   position: relative;
-  font-family: 'Poppins', 'Inter', sans-serif;
-  overflow-x: hidden;
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
   
   &::before {
     content: '';
@@ -33,10 +35,9 @@ const AppContainer = styled.div`
       radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
       radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 45%),
       radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 35%),
-      radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.12) 0%, transparent 40%),
-      radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+      radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.12) 0%, transparent 40%);
     pointer-events: none;
-    animation: backgroundShimmer 20s ease-in-out infinite;
+    animation: breathe 8s ease-in-out infinite;
   }
   
   &::after {
@@ -51,29 +52,33 @@ const AppContainer = styled.div`
     opacity: 0.4;
   }
   
-  @keyframes backgroundShimmer {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+  @keyframes breathe {
+    0%, 100% { 
+      opacity: 1; 
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.7; 
+      transform: scale(1.02);
+    }
   }
 `;
 
 const Header = styled.header`
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  padding: 2rem 2.5rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  padding: 1.25rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 
-    0 8px 40px rgba(0, 0, 0, 0.12),
-    0 4px 20px rgba(0, 123, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.25);
   position: relative;
   z-index: 10;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   
   &::before {
     content: '';
@@ -83,23 +88,23 @@ const Header = styled.header`
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.1) 0%, 
-      rgba(255, 255, 255, 0.05) 50%, 
-      rgba(0, 123, 255, 0.05) 100%);
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(0, 123, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.1) 100%);
     pointer-events: none;
     border-radius: inherit;
   }
   
   @media (max-width: 768px) {
-    padding: 1.5rem 2rem;
+    padding: 1rem 1.5rem;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     text-align: center;
   }
   
   @media (max-width: 480px) {
-    padding: 1rem 1.5rem;
-    gap: 1rem;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
   }
 `;
 
@@ -288,11 +293,11 @@ const HeaderInfo = styled.div`
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #007BFF;
+      background: linear-gradient(45deg, #00d4aa, #007BFF);
       box-shadow: 
-        0 0 15px rgba(0, 212, 170, 0.8),
-        0 0 30px rgba(0, 212, 170, 0.4);
-      animation: statusPulse 2s infinite;
+        0 0 12px rgba(0, 123, 255, 0.6),
+        0 0 24px rgba(0, 123, 255, 0.3);
+      animation: gentlePulse 2.5s infinite ease-in-out;
       position: relative;
       
       &::after {
@@ -305,9 +310,15 @@ const HeaderInfo = styled.div`
       }
     }
     
-    @keyframes statusPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.7; transform: scale(1.1); }
+    @keyframes gentlePulse {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 0.8; 
+        transform: scale(1.1); 
+      }
     }
     
     @keyframes statusRipple {
@@ -370,74 +381,47 @@ const HeaderInfo = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  grid-gap: 1rem;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  padding: 2rem;
-  gap: 2rem;
+  padding: 1rem;
   position: relative;
   z-index: 5;
   font-family: 'Inter', sans-serif;
+  height: calc(100vh - 120px);
+  min-height: 0;
+  overflow: hidden;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: 1.5fr 1fr;
+    padding: 0.875rem;
+    gap: 0.875rem;
+  }
   
   @media (max-width: 1024px) {
-    flex-direction: column;
-    padding: 1.5rem;
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 0.8fr 0.8fr;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    height: calc(100vh - 100px);
   }
   
   @media (max-width: 768px) {
-    padding: 1rem;
-    gap: 1rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    height: calc(100vh - 90px);
+    grid-template-rows: 2fr 0.7fr 0.7fr;
   }
   
   @media (max-width: 480px) {
-    padding: 0.75rem;
-  }
-`;
-
-const ChatContainer = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 28px;
-  box-shadow: 
-    0 32px 64px rgba(0, 0, 0, 0.12),
-    0 16px 32px rgba(0, 123, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(30px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Inter', sans-serif;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(0, 123, 255, 0.4) 20%, 
-      rgba(255, 215, 0, 0.4) 50%, 
-      rgba(0, 123, 255, 0.4) 80%, 
-      transparent 100%);
-  }
-  
-  @media (max-width: 768px) {
-    border-radius: 20px;
-  }
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 
-      0 40px 80px rgba(0, 0, 0, 0.15),
-      0 20px 40px rgba(0, 123, 255, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 0.25rem;
+    gap: 0.25rem;
+    height: calc(100vh - 80px);
+    grid-template-rows: 2.5fr 0.6fr 0.6fr;
   }
 `;
 
@@ -449,23 +433,24 @@ const ChatHeader = styled.div`
     #004799 75%, 
     #003D7A 100%);
   color: white;
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 1.75rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   position: relative;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   
   @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
+    padding: 0.75rem 1rem;
+    flex-direction: row;
+    text-align: left;
+    gap: 0.75rem;
   }
   
   @media (max-width: 480px) {
-    padding: 1.5rem 1rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
   
   &::before {
@@ -476,9 +461,9 @@ const ChatHeader = styled.div`
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 90% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 70% 90%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(0, 123, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 40%);
     pointer-events: none;
   }
   
@@ -505,27 +490,41 @@ const ChatHeader = styled.div`
     padding: 12px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
   }
   
   .chat-info h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     font-family: 'Inter', sans-serif;
     
     @media (max-width: 768px) {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
     }
   }
   
   .chat-info p {
-    margin: 0.5rem 0 0 0;
+    margin: 0.25rem 0 0 0;
     opacity: 0.9;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-family: 'Inter', sans-serif;
     
     @media (max-width: 768px) {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.75rem;
     }
   }
 `;
@@ -534,15 +533,14 @@ const ChatMessages = styled.div`
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
-  max-height: 500px;
-  min-height: 400px;
-  background: linear-gradient(to bottom, #fafafa 0%, #f8fafc 100%);
+  background: linear-gradient(to bottom, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(248, 250, 252, 0.98) 100%);
   font-family: 'Inter', sans-serif;
+  min-height: 0;
   
   @media (max-width: 768px) {
     padding: 1rem;
-    min-height: 300px;
-    max-height: 400px;
   }
   
   @media (max-width: 480px) {
@@ -550,26 +548,28 @@ const ChatMessages = styled.div`
   }
   
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 4px;
   }
   
   &::-webkit-scrollbar-track {
     background: #f1f5f9;
-    border-radius: 4px;
+    border-radius: 2px;
   }
   
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
-    border-radius: 4px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
   }
   
   &::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #0066CC 0%, #004799 100%);
+    transform: scale(1.1);
   }
 `;
 
 const ChatInputContainer = styled.div`
-  padding: 2rem;
+  padding: 1rem 1.25rem;
   border-top: 1px solid rgba(0, 123, 255, 0.1);
   background: linear-gradient(135deg, 
     rgba(255, 255, 255, 0.9) 0%, 
@@ -595,25 +595,25 @@ const ChatInputContainer = styled.div`
   }
   
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 0.75rem 1rem;
   }
   
   @media (max-width: 480px) {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 `;
 
 const ChatInputWrapper = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: center;
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(0, 123, 255, 0.1);
-  border-radius: 30px;
-  padding: 0.75rem;
+  border-radius: 25px;
+  padding: 0.5rem;
   box-shadow: 
-    0 8px 25px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 123, 255, 0.05),
+    0 6px 20px rgba(0, 0, 0, 0.08),
+    0 3px 8px rgba(0, 123, 255, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -637,18 +637,18 @@ const ChatInputWrapper = styled.div`
   &:focus-within {
     border-color: rgba(0, 123, 255, 0.3);
     box-shadow: 
-      0 0 0 4px rgba(0, 123, 255, 0.1),
-      0 12px 30px rgba(0, 0, 0, 0.1),
-      0 8px 20px rgba(0, 123, 255, 0.08),
+      0 0 0 3px rgba(0, 123, 255, 0.1),
+      0 8px 25px rgba(0, 0, 0, 0.1),
+      0 6px 15px rgba(0, 123, 255, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
   
   &:hover {
     border-color: rgba(0, 123, 255, 0.2);
     box-shadow: 
-      0 10px 28px rgba(0, 0, 0, 0.1),
-      0 6px 16px rgba(0, 123, 255, 0.06),
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 4px 12px rgba(0, 123, 255, 0.06),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 `;
@@ -684,23 +684,21 @@ const ChatInput = styled.input`
 const SendButton = styled.button`
   background: linear-gradient(135deg, 
     #007BFF 0%, 
-    #0066CC 25%, 
-    #0056B3 75%, 
-    #004799 100%);
+    #0066CC 50%, 
+    #0056B3 100%);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 
-    0 8px 20px rgba(0, 123, 255, 0.25),
-    0 4px 12px rgba(0, 123, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 6px 20px rgba(0, 123, 255, 0.25),
+    0 3px 10px rgba(0, 123, 255, 0.15);
   position: relative;
   overflow: hidden;
   
@@ -721,29 +719,27 @@ const SendButton = styled.button`
   &:hover {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 
-      0 12px 30px rgba(0, 123, 255, 0.35),
-      0 8px 20px rgba(0, 123, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 10px 25px rgba(0, 123, 255, 0.35),
+      0 6px 16px rgba(0, 123, 255, 0.2);
     background: linear-gradient(135deg, 
       #0080FF 0%, 
-      #007BFF 25%, 
-      #0066CC 75%, 
-      #0056B3 100%);
+      #007BFF 50%, 
+      #0066CC 100%);
     
     &::before {
       opacity: 1;
     }
     
     svg {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(10deg);
     }
   }
   
   &:active {
-    transform: translateY(-1px) scale(1.02);
+    transform: translateY(0) scale(1.02);
     box-shadow: 
-      0 8px 20px rgba(0, 123, 255, 0.3),
-      0 4px 12px rgba(0, 123, 255, 0.2),
+      0 6px 16px rgba(0, 123, 255, 0.3),
+      0 3px 8px rgba(0, 123, 255, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
@@ -751,11 +747,11 @@ const SendButton = styled.button`
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
-    box-shadow: 0 4px 12px rgba(230, 0, 126, 0.15);
+    box-shadow: 0 3px 8px rgba(230, 0, 126, 0.15);
     
     &:hover {
       transform: none;
-      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+      box-shadow: 0 3px 8px rgba(0, 123, 255, 0.15);
       background: linear-gradient(135deg, 
         #007BFF 0%, 
         #0066CC 25%, 
@@ -773,49 +769,24 @@ const SendButton = styled.button`
   }
   
   svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     transition: transform 0.3s ease;
   }
 `;
 
-const Sidebar = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  font-family: 'Inter', sans-serif;
-  
-  @media (max-width: 1024px) {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 1rem;
-    
-    > * {
-      min-width: 300px;
-      flex-shrink: 0;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-    overflow-x: visible;
-    
-    > * {
-      min-width: auto;
-      flex-shrink: 1;
-    }
-  }
-`;
-
 const WelcomeMessage = styled.div`
-  background: rgba(255, 255, 255, 0.98);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 182, 193, 0.05) 50%, 
+    rgba(173, 216, 230, 0.05) 100%);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 2.5rem;
   text-align: center;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.08),
+    0 5px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
@@ -823,7 +794,7 @@ const WelcomeMessage = styled.div`
   
   @media (max-width: 768px) {
     padding: 1.5rem;
-    border-radius: 16px;
+    border-radius: 14px;
   }
   
   @media (max-width: 480px) {
@@ -837,7 +808,11 @@ const WelcomeMessage = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #007BFF, #0056B3, #003D7A);
+    background: linear-gradient(90deg, 
+      #007BFF, 
+      #0066CC, 
+      #0056B3, 
+      #004799);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     
@@ -849,46 +824,30 @@ const WelcomeMessage = styled.div`
   
   h3 {
     color: #007BFF;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    font-weight: 700;
+    margin-bottom: 1.25rem;
+    font-size: 1.75rem;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     
     @media (max-width: 768px) {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
     }
   }
   
   p {
-    color: #6b7280;
+    color: #64748b;
     margin-bottom: 1.5rem;
-    line-height: 1.6;
+    line-height: 1.7;
     font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
     
     @media (max-width: 768px) {
-      font-size: 0.9rem;
-    }
-  }
-  
-  ul {
-    text-align: left;
-    color: #6b7280;
-    line-height: 1.8;
-    font-family: 'Inter', sans-serif;
-    
-    @media (max-width: 768px) {
-      font-size: 0.9rem;
-    }
-    
-    li {
-      margin-bottom: 0.5rem;
-      padding-left: 0.5rem;
-      border-left: 3px solid #e5e7eb;
-      transition: border-color 0.3s ease;
-      
-      &:hover {
-        border-color: #007BFF;
-      }
+      font-size: 1rem;
     }
   }
 `;
@@ -947,18 +906,195 @@ const LoadingDots = styled.div`
   }
 `;
 
+const SampleQuestionsSection = styled.div`
+  padding: 0.5rem;
+  background: transparent;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  
+  @media (max-width: 768px) {
+    padding: 0.375rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.25rem;
+  }
+`;
+
+const AnalyticsSection = styled.div`
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  min-height: 0;
+  
+  @media (max-width: 768px) {
+    padding: 0.375rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.25rem;
+  }
+`;
+
+const Chat = styled.div`
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 24px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.08),
+    0 15px 30px rgba(0, 123, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(30px);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  min-height: 0;
+  
+  &:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.12),
+      0 20px 40px rgba(0, 123, 255, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      #007BFF 0%, 
+      #0066CC 25%, 
+      #0056B3 50%, 
+      #004799 75%, 
+      #007BFF 100%);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
+  
+  @media (max-width: 1024px) {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 20px;
+    
+    &::before {
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    border-radius: 18px;
+    
+    &::before {
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+    }
+  }
+`;
+
+const BentoCard = styled.div`
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(255, 255, 255, 0.7) 100%);
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.06),
+    0 8px 16px rgba(0, 123, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(30px);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+      0 25px 50px rgba(0, 0, 0, 0.12),
+      0 15px 30px rgba(0, 123, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(0, 123, 255, 0.6) 20%, 
+      rgba(0, 86, 179, 0.6) 50%, 
+      rgba(0, 71, 153, 0.6) 80%, 
+      transparent 100%);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    border-radius: 16px;
+    
+    &::before {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+  }
+`;
+
+const SampleQuestionsCard = styled(BentoCard)`
+  grid-column: 2;
+  grid-row: 1;
+  
+  @media (max-width: 1024px) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+`;
+
+const AnalyticsCard = styled(BentoCard)`
+  grid-column: 2;
+  grid-row: 2;
+  
+  @media (max-width: 1024px) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+`;
+
 function App() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showDetailedAnalytics, setShowDetailedAnalytics] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -972,12 +1108,24 @@ function App() {
     setIsLoading(true);
 
     try {
+      console.log('Sending message:', userMessage);
       const response = await sendMessage(userMessage);
-      setMessages(prev => [...prev, { type: 'bot', content: response.response }]);
-    } catch (error) {
+      console.log('Received response:', response);
+      
+      // Handle both direct response string and response object
+      const botMessage = typeof response === 'string' ? response : response.response;
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        content: 'Sorry, I encountered an error while processing your request. Please try again.' 
+        content: botMessage,
+        confidence: response.confidence,
+        source: response.source 
+      }]);
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages(prev => [...prev, { 
+        type: 'bot', 
+        content: `I apologize, but I'm having trouble connecting to my knowledge base right now. However, I can still help you with Bajaj Finserv queries! The company delivered strong Q2 FY25 results with 30% revenue growth. Please try asking about specific topics like revenue, BAGIC performance, Bajaj Housing Finance, or ROE metrics.`,
+        error: true
       }]);
     } finally {
       setIsLoading(false);
@@ -990,8 +1138,46 @@ function App() {
     }
   };
 
-  const handleSampleQuestion = (question) => {
-    setInputValue(question);
+  const handleSampleQuestion = async (question) => {
+    if (isLoading) return;
+    
+    setInputValue('');
+    
+    // Add user message
+    setMessages(prev => [...prev, { type: 'user', content: question }]);
+    setIsLoading(true);
+
+    try {
+      console.log('Sending sample question:', question);
+      const response = await sendMessage(question);
+      console.log('Received response:', response);
+      
+      // Handle both direct response string and response object
+      const botMessage = typeof response === 'string' ? response : response.response;
+      setMessages(prev => [...prev, { 
+        type: 'bot', 
+        content: botMessage,
+        confidence: response.confidence,
+        source: response.source 
+      }]);
+    } catch (error) {
+      console.error('Sample question error:', error);
+      setMessages(prev => [...prev, { 
+        type: 'bot', 
+        content: `I apologize, but I'm having trouble connecting to my knowledge base right now. However, I can still help you with Bajaj Finserv queries! The company delivered strong Q2 FY25 results with 30% revenue growth. Please try asking about specific topics like revenue, BAGIC performance, Bajaj Housing Finance, or ROE metrics.`,
+        error: true
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleShowDetailedAnalytics = () => {
+    setShowDetailedAnalytics(true);
+  };
+
+  const handleCloseDetailedAnalytics = () => {
+    setShowDetailedAnalytics(false);
   };
 
   return (
@@ -1019,7 +1205,7 @@ function App() {
       </Header>
       
       <MainContent>
-        <ChatContainer>
+        <Chat>
           <ChatHeader>
             <div className="chat-icon">
               <FiMessageCircle size={28} />
@@ -1032,14 +1218,13 @@ function App() {
           
           <ChatMessages>
             {messages.length === 0 && (
-              <WelcomeMessage>
-                <h3 style={{ color: '#007BFF', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
-                  Welcome to Advanced AI-Powered Financial Assistant
-                </h3>
-                <p style={{ color: '#6b7280', marginBottom: '1rem', fontFamily: 'Inter, sans-serif' }}>
-                  I'm trained on Bajaj Finserv's financial data and can provide intelligent insights with contextual understanding. 
-                  I learn from our conversations and provide confidence-scored responses with source attribution.
-                </p>
+              <WelcomeMessage>            <h3 style={{ color: '#007BFF', marginBottom: '1.25rem', fontFamily: 'Inter, sans-serif', fontSize: '1.75rem', fontWeight: '600', background: 'linear-gradient(135deg, #007BFF 0%, #0056B3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              Welcome to Your Personal AI Financial Assistant
+            </h3>
+            <p style={{ color: '#64748b', marginBottom: '1rem', fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', lineHeight: '1.7' }}>
+              I'm here to help you understand Bajaj Finserv's financial performance with intelligent insights and contextual understanding. 
+              Ask me anything about earnings, stock performance, or financial trends - I'll provide confident, well-sourced responses!
+            </p>
               </WelcomeMessage>
             )}
             
@@ -1081,13 +1266,25 @@ function App() {
               </SendButton>
             </ChatInputWrapper>
           </ChatInputContainer>
-        </ChatContainer>
+        </Chat>
         
-        <Sidebar>
-          <SampleQuestions onQuestionClick={handleSampleQuestion} />
-          <ComprehensiveAnalytics />
-        </Sidebar>
+        <SampleQuestionsCard>
+          <SampleQuestionsSection>
+            <SampleQuestions onQuestionClick={handleSampleQuestion} />
+          </SampleQuestionsSection>
+        </SampleQuestionsCard>
+        
+        <AnalyticsCard>
+          <AnalyticsSection>
+            <ComprehensiveAnalytics onShowDetails={handleShowDetailedAnalytics} />
+          </AnalyticsSection>
+        </AnalyticsCard>
       </MainContent>
+      
+      <DetailedAnalytics 
+        isOpen={showDetailedAnalytics} 
+        onClose={handleCloseDetailedAnalytics} 
+      />
     </AppContainer>
   );
 }

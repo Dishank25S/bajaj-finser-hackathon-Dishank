@@ -6,6 +6,7 @@ const path = require('path');
 const csv = require('csv-parser');
 const moment = require('moment');
 const _ = require('lodash');
+const { exec } = require('child_process');
 const BajajAI = require('./services/BajajAI');
 
 dotenv.config();
@@ -20,6 +21,70 @@ const bajajAI = new BajajAI();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
+// AI Chat endpoint using Python LLM
+app.post('/api/chat', (req, res) => {
+    const { message } = req.body;
+    
+    if (!message || typeof message !== 'string') {
+        return res.status(400).json({ 
+            error: 'Invalid request', 
+            message: 'Message field is required and must be a string' 
+        });
+    }
+
+    // Escape message for shell execution
+    const escapedMessage = message.replace(/"/g, '\\"');
+    
+    // Execute Python query script
+    const pythonCommand = `python query_llm.py "${escapedMessage}"`;
+    
+    console.log(`🤖 Processing AI query: ${message}`);
+    
+    exec(pythonCommand, { 
+        cwd: __dirname,
+        timeout: 30000 // 30 second timeout
+    }, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`AI Query Error: ${error.message}`);
+            
+            // Fallback to basic AI response
+            const fallbackResponse = bajajAI.generateResponse(message);
+            return res.json({
+                response: fallbackResponse,
+                confidence: 0.6,
+                source: 'Fallback AI System',
+                note: 'Advanced AI temporarily unavailable, using fallback system'
+            });
+        }
+
+        if (stderr) {
+            console.warn(`AI Query Warning: ${stderr}`);
+        }
+
+        try {
+            // Try to parse JSON response from Python script
+            const aiResult = JSON.parse(stdout.trim());
+            
+            res.json({
+                response: aiResult.response || aiResult.message || stdout.trim(),
+                confidence: aiResult.confidence || 0.8,
+                source: aiResult.source || 'Bajaj Finance AI Assistant',
+                query: message,
+                timestamp: new Date().toISOString()
+            });
+        } catch (parseError) {
+            // If JSON parsing fails, return raw output
+            res.json({
+                response: stdout.trim() || 'I apologize, but I encountered an issue processing your query. Please try rephrasing your question.',
+                confidence: 0.7,
+                source: 'Bajaj Finance AI Assistant',
+                query: message,
+                timestamp: new Date().toISOString()
+            });
+        }
+    });
+});
 
 // In-memory storage for data
 let stockPriceData = [];
@@ -173,46 +238,81 @@ app.get('/api/stock-price/compare', (req, res) => {
     res.json(comparison);
 });
 
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', (req, res) => {
     const { message } = req.body;
     
-    if (!message) {
-        return res.status(400).json({ error: 'Message is required' });
+    if (!message || typeof message !== 'string') {
+        return res.status(400).json({ 
+            error: 'Invalid request', 
+            message: 'Message field is required and must be a string' 
+        });
     }
+
+    // Escape message for shell execution
+    const escapedMessage = message.replace(/"/g, '\\"');
     
-    try {
-        // Use the new AI system for intelligent responses
-        const aiResponse = await bajajAI.generateResponse(message, {
-            stockData: stockPriceData,
-            transcriptData: transcriptData
-        });
-        
-        res.json({
-            response: aiResponse.response,
-            confidence: aiResponse.confidence,
-            sources: aiResponse.sources,
-            suggestions: aiResponse.suggestions,
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        console.error('Chat error:', error);
-        
-        // Fallback to basic response system if AI fails
+    // Execute Python query script
+    const pythonCommand = `python query_llm.py "${escapedMessage}"`;
+    
+    console.log(`🤖 Processing AI query: ${message}`);
+    
+    exec(pythonCommand, { 
+        cwd: __dirname,
+        timeout: 30000 // 30 second timeout
+    }, async (error, stdout, stderr) => {
+        if (error) {
+            console.error(`AI Query Error: ${error.message}`);
+            
+            // Fallback to existing AI system
+            try {
+                const aiResponse = await bajajAI.generateResponse(message, {
+                    stockData: stockPriceData,
+                    transcriptData: transcriptData
+                });
+                
+                return res.json({
+                    response: aiResponse.response,
+                    confidence: aiResponse.confidence || 0.6,
+                    source: 'Bajaj Finance Fallback AI',
+                    note: 'Advanced AI temporarily unavailable, using fallback system'
+                });
+            } catch (fallbackError) {
+                // Ultimate fallback
+                const basicResponse = generateBasicResponse(message);
+                return res.json({
+                    response: basicResponse,
+                    confidence: 0.5,
+                    source: 'Basic Response System'
+                });
+            }
+        }
+
+        if (stderr) {
+            console.warn(`AI Query Warning: ${stderr}`);
+        }
+
         try {
-            const fallbackResponse = generateBasicResponse(message);
-            res.json({ 
-                response: fallbackResponse,
-                confidence: 0.6,
-                fallback: true 
+            // Try to parse JSON response from Python script
+            const aiResult = JSON.parse(stdout.trim());
+            
+            res.json({
+                response: aiResult.response || aiResult.message || stdout.trim(),
+                confidence: aiResult.confidence || 0.8,
+                source: aiResult.source || 'Bajaj Finance AI Assistant',
+                query: message,
+                timestamp: new Date().toISOString()
             });
-        } catch (fallbackError) {
-            console.error('Fallback error:', fallbackError);
-            res.status(500).json({ 
-                error: 'An error occurred while processing your request',
-                message: 'Please try rephrasing your question or contact support.'
+        } catch (parseError) {
+            // If JSON parsing fails, return raw output
+            res.json({
+                response: stdout.trim() || 'I apologize, but I encountered an issue processing your query. Please try rephrasing your question.',
+                confidence: 0.7,
+                source: 'Bajaj Finance AI Assistant',
+                query: message,
+                timestamp: new Date().toISOString()
             });
         }
-    }
+    });
 });
 
 // Fallback response system (using existing logic)
